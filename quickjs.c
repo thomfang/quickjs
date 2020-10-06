@@ -1599,7 +1599,7 @@ static void set_dummy_numeric_ops(JSNumericOperations *ops)
 
 #endif /* CONFIG_BIGNUM */
 
-#if !defined(CONFIG_STACK_CHECK) || defined(_MSC_VER)
+#if !defined(CONFIG_STACK_CHECK)
 /* no stack limitation */
 static inline uintptr_t js_get_stack_pointer(void)
 {
@@ -1614,7 +1614,12 @@ static inline BOOL js_check_stack_overflow(JSRuntime *rt, size_t alloca_size)
 /* Note: OS and CPU dependent */
 static inline uintptr_t js_get_stack_pointer(void)
 {
+#ifdef _MSC_VER
+    uint8_t ptr;
+    return &ptr;
+#else
     return (uintptr_t)__builtin_frame_address(0);
+#endif
 }
 
 static inline BOOL js_check_stack_overflow(JSRuntime *rt, size_t alloca_size)
@@ -1690,6 +1695,11 @@ JSRuntime *JS_NewRuntime2(const JSMallocFunctions *mf, void *opaque)
  fail:
     JS_FreeRuntime(rt);
     return NULL;
+}
+
+void JS_ResetStackTop(JSRuntime *rt)
+{
+    rt->stack_top = js_get_stack_pointer();
 }
 
 void *JS_GetRuntimeOpaque(JSRuntime *rt)
