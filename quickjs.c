@@ -1699,9 +1699,11 @@ JSRuntime *JS_NewRuntime2(const JSMallocFunctions *mf, void *opaque)
     return NULL;
 }
 
-void JS_ResetStackTop(JSRuntime *rt)
+uint8_t *JS_SetStackTop(JSRuntime *rt, uint8_t *new_stack_top)
 {
-    rt->stack_top = js_get_stack_pointer();
+    uint8_t *stack_top = rt->stack_top;
+    rt->stack_top = new_stack_top == 0 ? js_get_stack_pointer() : new_stack_top;
+    return stack_top;
 }
 
 void *JS_GetRuntimeOpaque(JSRuntime *rt)
