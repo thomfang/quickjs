@@ -367,7 +367,6 @@ void JS_SetMaxStackSize(JSRuntime *rt, size_t stack_size);
    used to check stack overflow. */
 void JS_UpdateStackTop(JSRuntime *rt);
 JSRuntime *JS_NewRuntime2(const JSMallocFunctions *mf, void *opaque);
-uint8_t *JS_SetStackTop(JSRuntime *rt, uint8_t *new_stack_top);
 void JS_FreeRuntime(JSRuntime *rt);
 void *JS_GetRuntimeOpaque(JSRuntime *rt);
 void JS_SetRuntimeOpaque(JSRuntime *rt, void *opaque);
