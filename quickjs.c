@@ -40,9 +40,6 @@
 #endif
 
 #ifdef _MSC_VER
-#pragma function (ceil)
-#pragma function (floor)
-
 #include <WinSock2.h>
 
 // From: https://stackoverflow.com/a/26085827
