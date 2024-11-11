@@ -9840,7 +9840,8 @@ JSClassID JS_GetClassID(JSValueConst obj)
 {
     JSObject *p;
     if (JS_VALUE_GET_TAG(obj) != JS_TAG_OBJECT)
-        return NULL;
+        // return NULL;
+        return 0;
     p = JS_VALUE_GET_OBJ(obj);
     return p->class_id;
 }
@@ -10790,7 +10791,8 @@ static int JS_ToInt64SatFree(JSContext *ctx, int64_t *pres, JSValue val)
             } else {
                 if (d < INT64_MIN)
                     *pres = INT64_MIN;
-                else if (d > INT64_MAX)
+                // else if (d > INT64_MAX)
+                else if (d > (double)INT64_MAX)
                     *pres = INT64_MAX;
                 else
                     *pres = (int64_t)d;
